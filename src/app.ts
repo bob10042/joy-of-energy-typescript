@@ -64,14 +64,15 @@ app.use((req: Request, res: Response) => {
   res.status(404).json({ error: 'Endpoint not found' });
 });
 
-// Export app for testing
+// Export app for testing and Vercel serverless
 export { app };
+export default app;
 
 // Start server if running directly
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`🚀 JOI Energy API running on http://localhost:${PORT}`);
-    console.log(`� API Docs: http://localhost:${PORT}/api-docs`);
-    console.log(`�📊 Try: http://localhost:${PORT}/readings/read/smart-meter-0`);
+    console.log(`📚 API Docs: http://localhost:${PORT}/api-docs`);
+    console.log(`📊 Try: http://localhost:${PORT}/readings/read/smart-meter-0`);
   });
 }
