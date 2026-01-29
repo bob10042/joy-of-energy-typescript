@@ -3,8 +3,18 @@ import { app } from '../../src/app';
 
 describe('API Integration Tests', () => {
   describe('GET /', () => {
+    it('should serve HTML demo page', async () => {
+      const response = await request(app)
+        .get('/')
+        .set('Accept', 'text/html');
+      expect(response.status).toBe(200);
+      expect(response.type).toBe('text/html');
+    });
+  });
+
+  describe('GET /api', () => {
     it('should return API info', async () => {
-      const response = await request(app).get('/');
+      const response = await request(app).get('/api');
       expect(response.status).toBe(200);
       expect(response.body.name).toBe('JOI Energy API');
     });

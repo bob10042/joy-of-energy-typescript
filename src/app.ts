@@ -1,5 +1,6 @@
 import express, { Application, Request, Response } from 'express';
 import swaggerUi from 'swagger-ui-express';
+import path from 'path';
 import { ReadingsController } from './controllers/ReadingsController';
 import { PricePlansController } from './controllers/PricePlansController';
 import { MeterReadingService } from './services/MeterReadingService';
@@ -13,6 +14,9 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, '../public')));
+
 // Swagger documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
@@ -24,8 +28,13 @@ const pricePlanService = new PricePlanService(meterReadingService);
 const readingsController = new ReadingsController(meterReadingService);
 const pricePlansController = new PricePlansController(pricePlanService);
 
-// Health check endpoint
+// Serve the interactive demo page at root
 app.get('/', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+// API info endpoint (always JSON)
+app.get('/api', (req: Request, res: Response) => {
   res.json({
     name: 'JOI Energy API',
     version: '1.0.0',
@@ -38,13 +47,6 @@ app.get('/', (req: Request, res: Response) => {
       'GET /price-plans/recommend/:smartMeterId': 'Get price plan recommendations (use ?limit=N)',
       'GET /price-plans': 'Get all available price plans',
     },
-    testMeters: [
-      'smart-meter-0 (Sarah - Dr Evil\'s Dark Energy)',
-      'smart-meter-1 (Peter - The Green Eco)',
-      'smart-meter-2 (Charlie - Dr Evil\'s Dark Energy)',
-      'smart-meter-3 (Andrea - Power for Everyone)',
-      'smart-meter-4 (Alex - The Green Eco)',
-    ],
   });
 });
 

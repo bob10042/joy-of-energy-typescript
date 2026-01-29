@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOI Energy - Smart Meter API Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #667eea;
+            --primary-dark: #5a67d8;
+            --secondary: #48bb78;
+            --accent: #ed8936;
+            --danger: #f56565;
+            --dark: #1a202c;
+            --gray-100: #f7fafc;
+            --gray-200: #edf2f7;
+            --gray-300: #e2e8f0;
+            --gray-600: #718096;
+            --gray-800: #2d3748;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+        }
+
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .card-icon.blue { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .card-icon.green { background: linear-gradient(135deg, #48bb78, #38a169); }
+        .card-icon.orange { background: linear-gradient(135deg, #ed8936, #dd6b20); }
+        .card-icon.red { background: linear-gradient(135deg, #f56565, #e53e3e); }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--gray-600);
+            margin-bottom: 6px;
+        }
+
+        select, input, textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--gray-100);
+            color: var(--gray-800);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-200);
+        }
+
+        .response-area {
+            background: var(--dark);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .response-area pre {
+            color: #a0aec0;
+            font-family: 'Fira Code', 'Monaco', monospace;
+            font-size: 0.85rem;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .response-area .success { color: var(--secondary); }
+        .response-area .error { color: var(--danger); }
+        .response-area .key { color: #90cdf4; }
+        .response-area .string { color: #68d391; }
+        .response-area .number { color: #f6ad55; }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-indicator.online {
+            background: rgba(72, 187, 120, 0.1);
+            color: var(--secondary);
+        }
+
+        .status-indicator .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .meter-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .meter-tag {
+            background: var(--gray-100);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: var(--gray-600);
+        }
+
+        .price-plan {
+            background: var(--gray-100);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .price-plan-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .price-plan-rate {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        .quick-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .quick-link {
+            background: var(--gray-100);
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .quick-link:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .endpoint-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        .endpoint-badge.get { background: var(--secondary); color: white; }
+        .endpoint-badge.post { background: var(--primary); color: white; }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .loading {
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gray-300);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .grid { grid-template-columns: 1fr; }
+            .card-body { padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">⚡</div>
+            <h1>JOI Energy API</h1>
+            <p class="subtitle">
+                Smart meter electricity reading and price plan comparison API. 
+                Built with TypeScript, Express.js, and ❤️ for the Thoughtworks challenge.
+            </p>
+            <div class="badge-container">
+                <span class="badge">TypeScript</span>
+                <span class="badge">Express.js</span>
+                <span class="badge">REST API</span>
+                <span class="badge">OpenAPI 3.0</span>
+            </div>
+        </header>
+
+        <div class="grid">
+            <!-- Read Meter Readings -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon blue">📊</div>
+                    <div>
+                        <div class="card-title">Read Meter Readings</div>
+                        <span class="status-indicator online"><span class="dot"></span> Live</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="readMeterId">Smart Meter ID</label>
+                        <select id="readMeterId">
+                            <option value="smart-meter-0">smart-meter-0 (Sarah)</option>
+                            <option value="smart-meter-1">smart-meter-1 (Peter)</option>
+                            <option value="smart-meter-2">smart-meter-2 (Charlie)</option>
+                            <option value="smart-meter-3">smart-meter-3 (Andrea)</option>
+                            <option value="smart-meter-4">smart-meter-4 (Alex)</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="readMeter()">
+                        <span class="endpoint-badge get">GET</span> Fetch Readings
+                    </button>
+                    <div class="response-area" id="readResponse">
+                        <pre>Click "Fetch Readings" to see meter data...</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Compare Price Plans -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon green">💰</div>
+                    <div>
+                        <div class="card-title">Compare Price Plans</div>
+                        <span class="status-indicator online"><span class="dot"></span> Live</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="compareMeterId">Smart Meter ID</label>
+                        <select id="compareMeterId">
+                            <option value="smart-meter-0">smart-meter-0 (Sarah)</option>
+                            <option value="smart-meter-1">smart-meter-1 (Peter)</option>
+                            <option value="smart-meter-2">smart-meter-2 (Charlie)</option>
+                            <option value="smart-meter-3">smart-meter-3 (Andrea)</option>
+                            <option value="smart-meter-4">smart-meter-4 (Alex)</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="comparePlans()">
+                        <span class="endpoint-badge get">GET</span> Compare All Plans
+                    </button>
+                    <div class="response-area" id="compareResponse">
+                        <pre>Click "Compare All Plans" to see cost comparison...</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Get Recommendations -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon orange">⭐</div>
+                    <div>
+                        <div class="card-title">Get Recommendations</div>
+                        <span class="status-indicator online"><span class="dot"></span> Live</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="recommendMeterId">Smart Meter ID</label>
+                        <select id="recommendMeterId">
+                            <option value="smart-meter-0">smart-meter-0 (Sarah)</option>
+                            <option value="smart-meter-1">smart-meter-1 (Peter)</option>
+                            <option value="smart-meter-2">smart-meter-2 (Charlie)</option>
+                            <option value="smart-meter-3">smart-meter-3 (Andrea)</option>
+                            <option value="smart-meter-4">smart-meter-4 (Alex)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="limitCount">Limit Results</label>
+                        <select id="limitCount">
+                            <option value="">All Plans</option>
+                            <option value="1">Top 1</option>
+                            <option value="2">Top 2</option>
+                            <option value="3">Top 3</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="getRecommendations()">
+                        <span class="endpoint-badge get">GET</span> Get Best Plans
+                    </button>
+                    <div class="response-area" id="recommendResponse">
+                        <pre>Click "Get Best Plans" to see recommendations...</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Store Readings -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon red">📝</div>
+                    <div>
+                        <div class="card-title">Store New Readings</div>
+                        <span class="status-indicator online"><span class="dot"></span> Live</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="storeMeterId">Smart Meter ID</label>
+                        <input type="text" id="storeMeterId" value="smart-meter-0" placeholder="Enter meter ID">
+                    </div>
+                    <div class="form-group">
+                        <label>Sample Readings (auto-generated)</label>
+                        <div style="background: var(--gray-100); padding: 10px; border-radius: 6px; font-size: 0.85rem; color: var(--gray-600);">
+                            Timestamps with random readings will be generated automatically
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="storeReadings()">
+                        <span class="endpoint-badge post">POST</span> Store Readings
+                    </button>
+                    <div class="response-area" id="storeResponse">
+                        <pre>Click "Store Readings" to add new meter data...</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Info Card -->
+        <div class="card" style="margin-bottom: 24px;">
+            <div class="card-header">
+                <div class="card-icon blue">📚</div>
+                <div class="card-title">API Documentation & Resources</div>
+            </div>
+            <div class="card-body">
+                <p style="margin-bottom: 16px; color: var(--gray-600);">
+                    This API provides endpoints for managing smart meter readings and comparing electricity price plans.
+                    Perfect for energy monitoring applications and cost optimization tools.
+                </p>
+                
+                <div class="quick-links">
+                    <a href="/api-docs" class="quick-link">📖 Swagger Docs</a>
+                    <a href="/" class="quick-link">🔧 API Root</a>
+                    <a href="/price-plans" class="quick-link">💡 View Plans</a>
+                    <a href="https://github.com/bob10042/joy-of-energy-typescript" class="quick-link" target="_blank">⭐ GitHub</a>
+                </div>
+
+                <h4 style="margin-top: 24px; margin-bottom: 12px;">Available Price Plans</h4>
+                <div class="price-plan">
+                    <div class="price-plan-name">🌱 The Green Eco</div>
+                    <div class="price-plan-rate">Rate: £0.083/kWh • Best for eco-conscious users</div>
+                </div>
+                <div class="price-plan">
+                    <div class="price-plan-name">👥 Power for Everyone</div>
+                    <div class="price-plan-rate">Rate: £0.099/kWh • Balanced pricing for all</div>
+                </div>
+                <div class="price-plan">
+                    <div class="price-plan-name">😈 Dr Evil's Dark Energy</div>
+                    <div class="price-plan-rate">Rate: £0.299/kWh • Premium evil power</div>
+                </div>
+
+                <h4 style="margin-top: 24px; margin-bottom: 12px;">Test Smart Meters</h4>
+                <div class="meter-info">
+                    <span class="meter-tag">smart-meter-0: Sarah</span>
+                    <span class="meter-tag">smart-meter-1: Peter</span>
+                    <span class="meter-tag">smart-meter-2: Charlie</span>
+                    <span class="meter-tag">smart-meter-3: Andrea</span>
+                    <span class="meter-tag">smart-meter-4: Alex</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>
+            Built with ⚡ by <a href="https://github.com/bob10042" target="_blank">bob10042</a> 
+            for the <a href="https://www.thoughtworks.com" target="_blank">Thoughtworks</a> Joy of Energy Challenge
+        </p>
+        <p style="margin-top: 10px; font-size: 0.9rem;">
+            TypeScript • Express.js • REST API • OpenAPI 3.0
+        </p>
+    </footer>
+
+    <script>
+        const API_BASE = window.location.origin;
+
+        function formatJson(data) {
+            const str = JSON.stringify(data, null, 2);
+            return str
+                .replace(/"([^"]+)":/g, '<span class="key">"$1"</span>:')
+                .replace(/: "([^"]*)"/g, ': <span class="string">"$1"</span>')
+                .replace(/: (\d+\.?\d*)/g, ': <span class="number">$1</span>');
+        }
+
+        function showLoading(elementId) {
+            document.getElementById(elementId).innerHTML = '<pre>Loading...</pre>';
+        }
+
+        function showError(elementId, error) {
+            document.getElementById(elementId).innerHTML = `<pre class="error">Error: ${error}</pre>`;
+        }
+
+        function showResponse(elementId, data) {
+            document.getElementById(elementId).innerHTML = `<pre class="success">${formatJson(data)}</pre>`;
+        }
+
+        async function readMeter() {
+            const meterId = document.getElementById('readMeterId').value;
+            showLoading('readResponse');
+            
+            try {
+                const response = await fetch(`${API_BASE}/readings/read/${meterId}`);
+                const data = await response.json();
+                showResponse('readResponse', data);
+            } catch (error) {
+                showError('readResponse', error.message);
+            }
+        }
+
+        async function comparePlans() {
+            const meterId = document.getElementById('compareMeterId').value;
+            showLoading('compareResponse');
+            
+            try {
+                const response = await fetch(`${API_BASE}/price-plans/compare-all/${meterId}`);
+                const data = await response.json();
+                showResponse('compareResponse', data);
+            } catch (error) {
+                showError('compareResponse', error.message);
+            }
+        }
+
+        async function getRecommendations() {
+            const meterId = document.getElementById('recommendMeterId').value;
+            const limit = document.getElementById('limitCount').value;
+            showLoading('recommendResponse');
+            
+            try {
+                let url = `${API_BASE}/price-plans/recommend/${meterId}`;
+                if (limit) url += `?limit=${limit}`;
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                showResponse('recommendResponse', data);
+            } catch (error) {
+                showError('recommendResponse', error.message);
+            }
+        }
+
+        async function storeReadings() {
+            const meterId = document.getElementById('storeMeterId').value;
+            showLoading('storeResponse');
+            
+            // Generate sample readings
+            const now = Date.now();
+            const readings = [];
+            for (let i = 0; i < 5; i++) {
+                readings.push({
+                    time: new Date(now - i * 3600000).toISOString(),
+                    reading: Math.random() * 2 + 0.1
+                });
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/readings/store`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        smartMeterId: meterId,
+                        electricityReadings: readings
+                    })
+                });
+                const data = await response.json();
+                showResponse('storeResponse', data);
+            } catch (error) {
+                showError('storeResponse', error.message);
+            }
+        }
+
+        // Load initial data on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(readMeter, 500);
+        });
+    </script>
+</body>
+</html>
