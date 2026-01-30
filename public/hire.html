@@ -3,20 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hire Me | Software Developer</title>
+    <title>Software Engineer | Security • Systems • Embedded</title>
+    <meta name="description" content="Security-focused systems engineer specializing in embedded firmware, runtime security, and AI platform development. Active open source contributor to MicroPython and developer tooling.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2d3748;
-            --accent: #4299e1;
-            --accent-dark: #3182ce;
-            --success: #48bb78;
-            --gray-100: #f7fafc;
-            --gray-200: #edf2f7;
-            --gray-300: #e2e8f0;
-            --gray-600: #718096;
-            --gray-800: #2d3748;
-            --radius: 8px;
+            --primary: #1a202c;
+            --accent: #3182ce;
+            --accent-dark: #2c5282;
+            --success: #38a169;
+            --warning: #d69e2e;
+            --gray-50: #f7fafc;
+            --gray-100: #edf2f7;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e0;
+            --gray-500: #718096;
+            --gray-600: #4a5568;
+            --gray-700: #2d3748;
+            --gray-800: #1a202c;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
         }
 
         * {
@@ -27,211 +34,368 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--gray-100);
+            background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
             color: var(--gray-800);
-            line-height: 1.6;
+            line-height: 1.7;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 48px 24px;
         }
 
         header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 48px;
         }
 
         .avatar {
-            width: 120px;
-            height: 120px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), #667eea);
+            background: linear-gradient(135deg, var(--accent) 0%, #667eea 50%, #764ba2 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
+            font-size: 3.5rem;
             color: white;
-            margin: 0 auto 20px;
+            margin: 0 auto 24px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .avatar::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), #667eea, #764ba2);
+            z-index: -1;
+            opacity: 0.3;
+            filter: blur(8px);
         }
 
         h1 {
-            font-size: 2rem;
+            font-size: 2.25rem;
             font-weight: 700;
             margin-bottom: 8px;
+            color: var(--primary);
         }
 
         .tagline {
             color: var(--gray-600);
-            font-size: 1.1rem;
+            font-size: 1.15rem;
+            font-weight: 400;
+            margin-bottom: 16px;
         }
 
         .status {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            background: rgba(72, 187, 120, 0.1);
+            gap: 10px;
+            background: rgba(56, 161, 105, 0.1);
             color: var(--success);
-            padding: 6px 16px;
+            padding: 8px 20px;
             border-radius: 50px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            margin-top: 16px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid rgba(56, 161, 105, 0.2);
         }
 
         .status::before {
             content: '';
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             background: var(--success);
             border-radius: 50%;
-            animation: pulse 2s infinite;
+            animation: pulse 2s ease-in-out infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.9); }
         }
 
         .card {
             background: white;
             border-radius: var(--radius);
-            padding: 24px;
+            padding: 32px;
             margin-bottom: 24px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
         }
 
         .card h2 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 16px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 20px;
             color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .skills-grid {
+        .card h2 .icon {
+            font-size: 1.5rem;
+        }
+
+        /* Impact Stats */
+        .impact-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 16px;
+            margin-bottom: 24px;
         }
 
-        .skill-category h3 {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+        .impact-stat {
+            text-align: center;
+            padding: 20px;
+            background: var(--gray-50);
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .impact-stat .number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            display: block;
+        }
+
+        .impact-stat .label {
+            font-size: 0.85rem;
             color: var(--gray-600);
-            margin-bottom: 8px;
+            font-weight: 500;
         }
 
-        .skill-list {
+        /* Expertise Areas */
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .expertise-item {
+            padding: 24px;
+            background: linear-gradient(135deg, var(--gray-50) 0%, white 100%);
+            border-radius: 10px;
+            border: 1px solid var(--gray-200);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .expertise-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .expertise-item h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .expertise-item p {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+
+        .expertise-item .tech {
+            margin-top: 12px;
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
         }
 
-        .skill-tag {
-            background: var(--gray-200);
-            padding: 4px 12px;
+        .expertise-item .tech span {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            background: var(--gray-100);
             border-radius: 4px;
-            font-size: 0.875rem;
+            color: var(--gray-700);
             font-weight: 500;
         }
 
-        .skill-tag.primary {
-            background: var(--accent);
-            color: white;
-        }
-
+        /* Projects */
         .project {
-            border-left: 3px solid var(--accent);
-            padding-left: 16px;
+            padding: 24px;
+            background: var(--gray-50);
+            border-radius: 10px;
             margin-bottom: 16px;
+            border-left: 4px solid var(--accent);
         }
 
         .project:last-child {
             margin-bottom: 0;
         }
 
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
         .project h3 {
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 4px;
+            color: var(--primary);
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-security {
+            background: rgba(229, 62, 62, 0.1);
+            color: #c53030;
+        }
+
+        .badge-oss {
+            background: rgba(49, 130, 206, 0.1);
+            color: var(--accent);
+        }
+
+        .badge-ai {
+            background: rgba(128, 90, 213, 0.1);
+            color: #6b46c1;
         }
 
         .project p {
             color: var(--gray-600);
-            font-size: 0.875rem;
-            margin-bottom: 8px;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+
+        .project-stats {
+            display: flex;
+            gap: 16px;
+            font-size: 0.85rem;
+            color: var(--gray-500);
+            margin-bottom: 12px;
+        }
+
+        .project-stats span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .project-link {
             color: var(--accent);
             text-decoration: none;
-            font-size: 0.875rem;
-            font-weight: 500;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: gap 0.2s;
         }
 
         .project-link:hover {
-            text-decoration: underline;
+            gap: 8px;
+        }
+
+        /* Skills compact */
+        .skills-compact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-pill {
+            padding: 6px 14px;
+            background: var(--gray-100);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--gray-700);
+            border: 1px solid var(--gray-200);
+        }
+
+        .skill-pill.highlight {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        /* Contact */
+        .contact-section {
+            text-align: center;
+            padding: 40px 32px;
+            background: linear-gradient(135deg, var(--gray-700) 0%, var(--gray-800) 100%);
+            color: white;
+        }
+
+        .contact-section h2 {
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .contact-section p {
+            color: var(--gray-300);
+            margin-bottom: 24px;
+            font-size: 1rem;
+        }
+
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
         .contact-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: var(--accent);
-            color: white;
-            padding: 12px 24px;
-            border-radius: var(--radius);
+            padding: 14px 28px;
+            border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
-            transition: background 0.2s;
+            font-size: 0.95rem;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .contact-btn:hover {
-            background: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
-        .contact-section {
-            text-align: center;
-            padding: 32px;
+        .contact-btn.primary {
+            background: var(--accent);
+            color: white;
         }
 
-        .contact-section p {
-            color: var(--gray-600);
-            margin-bottom: 16px;
-        }
-
-        .services-list {
-            list-style: none;
-        }
-
-        .services-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid var(--gray-200);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .services-list li:last-child {
-            border-bottom: none;
-        }
-
-        .services-list .icon {
-            width: 32px;
-            height: 32px;
-            background: var(--gray-200);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .contact-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
         footer {
             text-align: center;
             padding: 24px;
-            color: var(--gray-600);
+            color: var(--gray-500);
             font-size: 0.875rem;
         }
 
@@ -241,168 +405,211 @@
         }
 
         @media (max-width: 600px) {
-            h1 { font-size: 1.5rem; }
-            .skills-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.75rem; }
+            .container { padding: 24px 16px; }
+            .card { padding: 24px 20px; }
+            .expertise-grid { grid-template-columns: 1fr; }
+            .impact-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="avatar">👨‍💻</div>
-            <h1>Software Developer</h1>
-            <p class="tagline">Embedded Systems • Systems Programming • Backend Development</p>
-            <span class="status">Available for Work</span>
+            <div class="avatar">🛡️</div>
+            <h1>Systems & Security Engineer</h1>
+            <p class="tagline">Hardening embedded runtimes • Building developer tools • Shipping secure code</p>
+            <span class="status">Available for Contract Work</span>
         </header>
 
+        <!-- Impact Stats -->
         <div class="card">
-            <h2>Technical Skills</h2>
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3>Languages</h3>
-                    <div class="skill-list">
-                        <span class="skill-tag primary">C/C++</span>
-                        <span class="skill-tag primary">Python</span>
-                        <span class="skill-tag">TypeScript</span>
-                        <span class="skill-tag">JavaScript</span>
-                        <span class="skill-tag">Assembly</span>
+            <h2><span class="icon">📊</span> Open Source Impact</h2>
+            <div class="impact-grid">
+                <div class="impact-stat">
+                    <span class="number">11</span>
+                    <span class="label">Security PRs to MicroPython</span>
+                </div>
+                <div class="impact-stat">
+                    <span class="number">10+</span>
+                    <span class="label">PRs to Cline AI</span>
+                </div>
+                <div class="impact-stat">
+                    <span class="number">19k+</span>
+                    <span class="label">⭐ Project Stars Contributed To</span>
+                </div>
+                <div class="impact-stat">
+                    <span class="number">3</span>
+                    <span class="label">PRs to Thoughtworks Radar</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Core Expertise -->
+        <div class="card">
+            <h2><span class="icon">🎯</span> Core Expertise</h2>
+            <div class="expertise-grid">
+                <div class="expertise-item">
+                    <h3>🔒 Runtime Security</h3>
+                    <p>Identifying and remediating vulnerabilities in language runtimes. Buffer overflows, integer overflows, input validation, memory safety.</p>
+                    <div class="tech">
+                        <span>C</span>
+                        <span>Python Internals</span>
+                        <span>Fuzzing</span>
+                        <span>Static Analysis</span>
                     </div>
                 </div>
-                <div class="skill-category">
-                    <h3>Embedded & Hardware</h3>
-                    <div class="skill-list">
-                        <span class="skill-tag primary">STM32</span>
-                        <span class="skill-tag primary">MicroPython</span>
-                        <span class="skill-tag">ARM Cortex-M</span>
-                        <span class="skill-tag">ESP32</span>
-                        <span class="skill-tag">Arduino</span>
-                        <span class="skill-tag">Raspberry Pi</span>
+                <div class="expertise-item">
+                    <h3>⚙️ Embedded Systems</h3>
+                    <p>Firmware development for resource-constrained environments. Bare metal, RTOS, and MicroPython on ARM Cortex-M and ESP32.</p>
+                    <div class="tech">
+                        <span>STM32</span>
+                        <span>ESP32</span>
+                        <span>FreeRTOS</span>
+                        <span>ARM Cortex-M</span>
                     </div>
                 </div>
-                <div class="skill-category">
-                    <h3>RTOS & Firmware</h3>
-                    <div class="skill-list">
-                        <span class="skill-tag primary">FreeRTOS</span>
-                        <span class="skill-tag">Zephyr</span>
-                        <span class="skill-tag">Bare Metal</span>
-                        <span class="skill-tag">CMSIS</span>
-                        <span class="skill-tag">HAL Drivers</span>
+                <div class="expertise-item">
+                    <h3>🤖 AI Platform Development</h3>
+                    <p>Building and extending AI-powered developer tools. Multi-provider integrations, async architectures, VS Code extensions.</p>
+                    <div class="tech">
+                        <span>TypeScript</span>
+                        <span>LLM APIs</span>
+                        <span>VS Code Extension API</span>
                     </div>
                 </div>
-                <div class="skill-category">
-                    <h3>Toolchains</h3>
-                    <div class="skill-list">
-                        <span class="skill-tag primary">GCC/ARM-GCC</span>
-                        <span class="skill-tag">Make/CMake</span>
-                        <span class="skill-tag">GDB</span>
-                        <span class="skill-tag">OpenOCD</span>
-                        <span class="skill-tag">STM32CubeIDE</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3>Protocols & Interfaces</h3>
-                    <div class="skill-list">
-                        <span class="skill-tag">UART/SPI/I2C</span>
-                        <span class="skill-tag">CAN Bus</span>
-                        <span class="skill-tag">USB</span>
-                        <span class="skill-tag">BLE</span>
-                        <span class="skill-tag">MQTT</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3>Backend & Web</h3>
-                    <div class="skill-list">
-                        <span class="skill-tag">Node.js</span>
-                        <span class="skill-tag">Express.js</span>
-                        <span class="skill-tag">REST APIs</span>
-                        <span class="skill-tag">PostgreSQL</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3>Systems & DevOps</h3>
-                    <div class="skill-list">
-                        <span class="skill-tag">Linux/Unix</span>
-                        <span class="skill-tag">Git</span>
-                        <span class="skill-tag">CI/CD</span>
-                        <span class="skill-tag">Docker</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3>Testing & Debug</h3>
-                    <div class="skill-list">
-                        <span class="skill-tag">JTAG/SWD</span>
-                        <span class="skill-tag">Logic Analyzer</span>
-                        <span class="skill-tag">Unit Testing</span>
-                        <span class="skill-tag">Jest</span>
+                <div class="expertise-item">
+                    <h3>🌐 Backend & APIs</h3>
+                    <p>RESTful services, real-time systems, and cloud integrations. Clean architecture with comprehensive testing.</p>
+                    <div class="tech">
+                        <span>Node.js</span>
+                        <span>Express</span>
+                        <span>PostgreSQL</span>
+                        <span>Docker</span>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Featured Work -->
         <div class="card">
-            <h2>What I Do</h2>
-            <ul class="services-list">
-                <li>
-                    <span class="icon">🔌</span>
-                    <div>
-                        <strong>Embedded Firmware Development</strong> — STM32, ARM Cortex-M, bare metal & RTOS
-                    </div>
-                </li>
-                <li>
-                    <span class="icon">🐍</span>
-                    <div>
-                        <strong>MicroPython Development</strong> — Rapid prototyping, IoT devices, sensor integration
-                    </div>
-                </li>
-                <li>
-                    <span class="icon">⚙️</span>
-                    <div>
-                        <strong>Systems Programming</strong> — Performance-critical applications in C/C++
-                    </div>
-                </li>
-                <li>
-                    <span class="icon">📡</span>
-                    <div>
-                        <strong>IoT & Connectivity</strong> — BLE, WiFi, MQTT, device-to-cloud integration
-                    </div>
-                </li>
-                <li>
-                    <span class="icon">🔧</span>
-                    <div>
-                        <strong>Driver Development</strong> — Peripheral drivers, HAL, hardware abstraction
-                    </div>
-                </li>
-                <li>
-                    <span class="icon">🌐</span>
-                    <div>
-                        <strong>API Development</strong> — RESTful services with Node.js/TypeScript
-                    </div>
-                </li>
-            </ul>
-        </div>
-
-        <div class="card">
-            <h2>Recent Work</h2>
+            <h2><span class="icon">🚀</span> Featured Contributions</h2>
+            
             <div class="project">
-                <h3>JOI Energy API</h3>
-                <p>Smart meter REST API built with TypeScript and Express. Features price plan comparisons, usage recommendations, and Swagger documentation. 55 tests, 88% coverage.</p>
-                <a href="/" class="project-link">View Live Demo →</a>
+                <div class="project-header">
+                    <h3>MicroPython Runtime Security Hardening</h3>
+                    <div class="project-meta">
+                        <span class="badge badge-security">Security</span>
+                        <span class="badge badge-oss">Open Source</span>
+                    </div>
+                </div>
+                <p>Submitted 11 security-focused pull requests to the MicroPython interpreter—a runtime powering millions of embedded devices. Fixes include regex recursion limits, compile() input validation, WebSocket frame corruption, string multiplication overflows, and integer overflow protection across multiple subsystems.</p>
+                <div class="project-stats">
+                    <span>⭐ 19k+ stars</span>
+                    <span>📝 11 PRs submitted</span>
+                    <span>🔧 C / Python</span>
+                </div>
+                <a href="https://github.com/micropython/micropython/pulls?q=author%3Abob10042" class="project-link" target="_blank">View PRs on GitHub →</a>
             </div>
+
             <div class="project">
-                <h3>Thoughtworks Radar Contributions</h3>
-                <p>3 pull requests to the open source build-your-own-radar project: security vulnerability fixes, PDF hyperlink improvements, and internationalization support for accented characters.</p>
+                <div class="project-header">
+                    <h3>Cline AI - Developer Tool Enhancements</h3>
+                    <div class="project-meta">
+                        <span class="badge badge-ai">AI/ML</span>
+                        <span class="badge badge-oss">Open Source</span>
+                    </div>
+                </div>
+                <p>Major contributions to Cline, an AI coding assistant with 30k+ users. Fixed 13+ bugs across multiple AI providers (Gemini, DeepSeek, GPT, Ollama, AWS Bedrock), implemented CLI integration, messaging systems, and performance optimizations. +54,000 lines across 200+ files.</p>
+                <div class="project-stats">
+                    <span>⭐ 30k+ stars</span>
+                    <span>📝 10+ PRs</span>
+                    <span>🔧 TypeScript / Node.js</span>
+                </div>
+                <a href="https://github.com/cline/cline/pulls?q=author%3Abob10042" class="project-link" target="_blank">View PRs on GitHub →</a>
+            </div>
+
+            <div class="project">
+                <div class="project-header">
+                    <h3>Thoughtworks Technology Radar</h3>
+                    <div class="project-meta">
+                        <span class="badge badge-oss">Open Source</span>
+                    </div>
+                </div>
+                <p>Three pull requests to the enterprise technology radar visualization tool: security vulnerability patches, PDF hyperlink rendering fixes, and internationalization support for accented characters in search.</p>
+                <div class="project-stats">
+                    <span>⭐ 2k+ stars</span>
+                    <span>📝 3 PRs</span>
+                    <span>🔧 JavaScript / CSS</span>
+                </div>
                 <a href="https://github.com/thoughtworks/build-your-own-radar/pulls?q=author%3Abob10042" class="project-link" target="_blank">View PRs on GitHub →</a>
             </div>
+
+            <div class="project">
+                <div class="project-header">
+                    <h3>JOI Energy Smart Meter API</h3>
+                    <div class="project-meta">
+                        <span class="badge badge-oss">Demo</span>
+                    </div>
+                </div>
+                <p>Full-stack REST API for smart meter electricity readings and price plan comparisons. TypeScript, Express.js, Swagger documentation, 55 tests with 88% coverage. Deployed on Vercel.</p>
+                <div class="project-stats">
+                    <span>✅ 88% test coverage</span>
+                    <span>📝 55 tests</span>
+                    <span>🔧 TypeScript / Express</span>
+                </div>
+                <a href="/" class="project-link">View Live Demo →</a>
+            </div>
         </div>
 
+        <!-- Technical Skills -->
+        <div class="card">
+            <h2><span class="icon">🛠️</span> Technical Toolkit</h2>
+            <div class="skills-compact">
+                <span class="skill-pill highlight">C/C++</span>
+                <span class="skill-pill highlight">Python</span>
+                <span class="skill-pill highlight">TypeScript</span>
+                <span class="skill-pill">JavaScript</span>
+                <span class="skill-pill">Assembly (ARM)</span>
+                <span class="skill-pill highlight">MicroPython</span>
+                <span class="skill-pill highlight">STM32</span>
+                <span class="skill-pill">ESP32</span>
+                <span class="skill-pill">FreeRTOS</span>
+                <span class="skill-pill">Zephyr</span>
+                <span class="skill-pill">ARM Cortex-M</span>
+                <span class="skill-pill">UART/SPI/I2C</span>
+                <span class="skill-pill">CAN Bus</span>
+                <span class="skill-pill">BLE</span>
+                <span class="skill-pill">MQTT</span>
+                <span class="skill-pill">Node.js</span>
+                <span class="skill-pill">Express.js</span>
+                <span class="skill-pill">REST APIs</span>
+                <span class="skill-pill">PostgreSQL</span>
+                <span class="skill-pill">Git</span>
+                <span class="skill-pill">Docker</span>
+                <span class="skill-pill">Linux</span>
+                <span class="skill-pill">GDB</span>
+                <span class="skill-pill">JTAG/SWD</span>
+                <span class="skill-pill">CI/CD</span>
+                <span class="skill-pill">Jest</span>
+            </div>
+        </div>
+
+        <!-- Contact -->
         <div class="card contact-section">
-            <p>Interested in working together? Let's talk.</p>
-            <a href="https://github.com/bob10042" class="contact-btn" target="_blank">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                </svg>
-                Contact via GitHub
-            </a>
+            <h2>Let's Build Something Secure</h2>
+            <p>Available for contract work, security audits, and embedded systems projects.<br>100% remote • Worldwide</p>
+            <div class="contact-buttons">
+                <a href="https://github.com/bob10042" class="contact-btn primary" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    GitHub Profile
+                </a>
+                <a href="mailto:contact@example.com" class="contact-btn secondary">
+                    ✉️ Get in Touch
+                </a>
+            </div>
         </div>
     </div>
 
